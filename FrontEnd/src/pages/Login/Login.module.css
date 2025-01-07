@@ -1,0 +1,236 @@
+.loginContainer {
+  display: flex;
+  margin-bottom: -90px;
+}
+
+.pularconteudo {
+  display: flex;
+  font-size: 12px;
+  justify-content: center;
+}
+
+.ImageFundo{
+  margin-top: 50px ;
+  width: 80%;
+  background-size: cover;
+  background-position: center;
+}
+
+.LadoEsquerdo {
+  display: flex;
+  margin-top: 45px;
+  align-items: center;
+}
+
+.LadoDireito {
+  margin-right: 100px;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formularioLogin {
+  width: 500px;
+  max-width: 90%;
+  border-radius: 20px;
+  background: #f5f7f7;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 8px 8px rgba(189, 29, 29, 0.08);
+}
+
+.titulo {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.labelInput {
+  width: 70%;
+}
+
+.loginEmail,
+.loginSenha {
+  width: 70%;
+  height: 40px;
+  padding: 10px;
+  border: 1px solid #a7a1a1;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  background-color: #f5f5f5;
+  margin-bottom: 15px;
+}
+
+.loginButton,
+.CadastroBotao {
+  width: 70%;
+  height: 40px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.loginButton {
+  background-color: #218981;
+  color: #fff;
+  border: 1px solid #aaa;
+}
+
+.loginButton:hover {
+  background-color: #2d939c;
+  border-color: #2d939c;
+}
+
+.CadastroBotao {
+  margin-top: 10px;
+  background-color: #4fb889;
+  color: #fff;
+  border: 1px solid #4fb889;
+}
+
+.CadastroBotao:hover {
+  background-color: #296f71;
+}
+
+.loginSenha {
+  max-width: 400px;
+  height: 40px;
+  padding: 21px;
+  border: 1px solid #a7a1a1;
+  border-radius: 8px;
+  color: #333;
+  background-color: #f5f5f5;
+}
+
+.formText{
+  color: #000;
+  font-weight: 500;
+  font-size: 22px;
+  text-align: center;
+}
+
+.Calendario {
+  margin-left: 10px;
+  color: #00796b;
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
+}
+
+.registerMessage{
+  font-weight: 500;
+  font-size: 16px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* responsividade */
+
+@media (max-width: 768px) {
+
+  .ImageFundo{
+    width: 450px;
+    margin: 0 auto;
+  }
+  
+  .loginContainer {
+    
+    flex-direction: column;
+     display: flex;
+  }
+
+  .LadoEsquerdo,
+  .LadoDireito {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .formularioLogin {
+    width: 80%;
+  }
+}
+
+
+ @media (min-width: 768px) and (max-width: 1300px) {
+  
+  .ImageFundo{
+    width: 600px;
+  }
+  
+  .loginContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    flex-wrap: wrap;
+  }
+
+  .LadoEsquerdo {
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px; 
+  }
+
+  .LadoDireito {
+    margin-bottom: 15px;
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .formularioLogin {
+    margin-top: 0; 
+    width: 500px;  
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+@media (min-width: 768px) and (max-width: 1150px) {
+
+  .LadoEsquerdo,
+  .LadoDireito {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .formularioLogin {
+    width: 60%;
+    max-width: 600px;
+  }
+  
+}  */

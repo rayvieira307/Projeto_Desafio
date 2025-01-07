@@ -1,0 +1,28 @@
+.header {
+    display: flex;
+    position: relative;
+    height: 80px;
+    padding: 0.5rem 1.70rem;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    z-index: 10;
+  }
+
+  .header:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  #logoNeki img {
+    margin-top: 8px;
+    width: 190px;
+    height: 70px;
+    cursor: pointer;
+  
+    @media (max-width: 425px) {
+      width: 128px;
+      height: 48px;
+    }
+  }

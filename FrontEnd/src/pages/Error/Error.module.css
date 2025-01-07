@@ -1,0 +1,32 @@
+.errorPageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f8f8f8;
+    color: #333;
+    text-align: center;
+  }
+  
+  .errorTitle {
+    font-size: 48px;
+    font-weight: bold;
+    color: #ff4040;
+  }
+  
+  .errorMessage {
+    font-size: 18px;
+    margin: 20px 0;
+  }
+  
+  .homeLink {
+    font-size: 16px;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .homeLink:hover {
+    text-decoration: underline;
+  }

@@ -1,0 +1,40 @@
+.Containerfooter {
+  min-height: 20vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}  
+
+.footer {
+  background-color: #253b4c;
+  color: #fff;
+  padding: 5px;
+  text-align: center;
+  width: 100%;
+  bottom: 0;
+  position: relative;
+}
+
+.text {
+  font-size: 15px;
+  margin: 0px;
+}
+
+.icons{
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.icons a{
+  margin-right: 20px;
+  color: #ffffff; 
+  transition: color 0.3s ease;
+}
+
+.icons a:hover {
+  color: #000000; 
+}
+
+
