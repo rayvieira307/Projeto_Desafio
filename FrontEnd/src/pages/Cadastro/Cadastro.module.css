@@ -53,6 +53,7 @@
 
 .submitButton {
   padding: 20px;
+  width: 60%;
   border-radius: 8px;
   background-color: #218981;
   color: #fff;

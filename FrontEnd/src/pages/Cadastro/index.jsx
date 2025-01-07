@@ -2,13 +2,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as styles from "./Cadastro.module.css";
 import Modal from "../../components/Modal/Modal";
+import axios from "axios";
 
 export const Cadastro = () => {
+
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
     senha: "",
-    confirmaSenha: "",
+    confirmasenha: "",
   });
 
   const [message, setMessage] = useState("");
@@ -17,19 +19,18 @@ export const Cadastro = () => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    if (type === "checkbox") {
-      setFormData({ ...formData, [name]: checked });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formData.senha !== formData.confirmaSenha) {
-      setMessage("Senha e ConfirmaSenha não são iguais.");
+    if (formData.senha !== formData.confirmasenha) {
+      setMessage("Senha e Confirma Senha não são iguais.");
       setModalOpen(true);
       return;
     }
@@ -38,13 +39,12 @@ export const Cadastro = () => {
       nome: formData.nome,
       email: formData.email,
       senha: formData.senha,
-      confirmaSenha: formData.confirmaSenha,
     };
 
     setIsLoading(true);
 
     try {
-      const response = await api.post("/usuarios", dataToSend);
+      const response = await axios.post("http://localhost:8080/admin", dataToSend);;
       setMessage("Cadastro realizado com sucesso!");
       console.log("Cadastro realizado:", response.data);
       setModalOpen(true);
@@ -82,7 +82,7 @@ export const Cadastro = () => {
               placeholder="Nome Completo"
               name="nome"
               aria-label="Nome"
-              onChange={(e) => setNome(e.target.value)}
+              onChange={handleChange}
               required
             />
           </section>
@@ -97,7 +97,7 @@ export const Cadastro = () => {
               placeholder="seuemail@email.com"
               name="email"
               aria-label="Email"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleChange}
               required
             />
           </section>
@@ -113,7 +113,7 @@ export const Cadastro = () => {
               id="senha"
               name="senha"
            
-              onChange={(e) => setSenha(e.target.value)}
+              onChange={handleChange}
               required
               aria-label="Senha"
             />
@@ -125,12 +125,13 @@ export const Cadastro = () => {
             </label>
             <input
               type="password"
-              placeholder="confirmaSenha"
-              id="senha"
-              name="senha"
-              onChange={(e) => setSenha(e.target.value)}
+              placeholder="Confirma Senha"
+              id="confirmaSenha"
+              name="confirmasenha"
+              value={formData.confirmasenha}
+              onChange={handleChange}
               required
-              aria-label="Senha"
+              aria-label="Confirma Senha"
             />
           </section>
 
