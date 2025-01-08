@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,6 +62,19 @@ public class AdminController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<AdminDto> cadastrarAdmin(@Valid @RequestBody CadastroAdmin cadastroAdmin){
     	return ResponseEntity.ok(service.salvarAdmin(cadastroAdmin));
+    }
+    
+    
+    @Operation(summary = "Deletar um admin", description = "Deleta um admin baseado no ID fornecido")
+    @DeleteMapping("/{id}")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "400", description = "Não foi possível deletar o admin."),
+        @ApiResponse(responseCode = "404", description = "Admin não encontrado."),
+        @ApiResponse(responseCode = "200", description = "Admin deletado com sucesso.") })
+    @ResponseStatus(HttpStatus.NO_CONTENT) 
+    public ResponseEntity<Void> deletarAdmin(@PathVariable Long id) {
+        service.deletarAdmin(id); 
+        return ResponseEntity.noContent().build(); 
     }
 
 }

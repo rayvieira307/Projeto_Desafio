@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Modal from "../../components/Modal/Modal";
 import * as style from "./Login.module.css";
+import { AuthContext } from "../../context/Auth";
 import { FaCalendarDays } from "react-icons/fa6";
 import FundoLogin from "../../assets/FundoLogin.jpg";
 
 export const Login = () => {
+  const { signIn } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
+  // Validação do formulário com Yup
   const schema = Yup.object().shape({
-    senha: Yup.string().required(" Você deve informar sua senha."),
-
+    senha: Yup.string().required("Você deve informar sua senha."),
     email: Yup.string()
       .email("Insira um email válido.")
       .required("O campo email é obrigatório."),
@@ -27,54 +28,47 @@ export const Login = () => {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
+      // Validação do formulário
       await schema.validate({ email, senha }, { abortEarly: false });
       setLoading(true);
+      setMessage("");
+
+      // Chamada para o signIn do AuthContext
       const response = await signIn({ email, senha });
+
+
       if (!response || response.error) {
-        throw new Error("Email ou senha incorretos. Tente novamente.");
+        setMessage("Email ou senha incorretos. Tente novamente.");
+        setIsModalOpen(true);
+        setLoading(false);
+        return;
       }
 
-      if (rememberMe) {
-        localStorage.setItem("email", email);
-        localStorage.setItem("senha", senha);
-      } else {
-        localStorage.removeItem("email");
-        localStorage.removeItem("senha");
-      }
+      
 
       setLoading(false);
-      navigate("/eventos");
+      navigate("/dashboard"); // Navega para a página de eventos após o login
     } catch (err) {
       setLoading(false);
+      setIsModalOpen(true);
+      // Exibição de mensagens de erro
       if (err instanceof Yup.ValidationError) {
         const errorMessage = err.errors.join("\n");
         setMessage(errorMessage);
-      } else if (
-        err.message === "Email ou senha incorretos. Tente novamente."
-      ) {
+      } else if (err.message === "Email ou senha incorretos. Tente novamente.") {
         setMessage(err.message);
       } else {
         setMessage("Ocorreu um erro inesperado. Tente novamente mais tarde.");
       }
       setIsModalOpen(true);
     }
-    await signIn({ email, senha });
   };
 
-
-  useEffect(() => {
-    const savedEmail = localStorage.getItem("email");
-    const savedSenha = localStorage.getItem("senha");
-    if (savedEmail && savedSenha) {
-      setEmail(savedEmail);
-      setSenha(savedSenha);
-      setRememberMe(true); 
-    }
-  }, []);
 
   const closeModal = () => {
-    setIsModalOpen(false);
+    setIsModalOpen(false)  ;
   };
+
 
   return (
     <main>
@@ -131,8 +125,6 @@ export const Login = () => {
             <label className={style.CheckBox}>
               <input
                 type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
                 aria-label="Lembrar da Senha"
               />
               Gravar Senha
@@ -151,6 +143,7 @@ export const Login = () => {
             <Modal isOpen={isModalOpen} onClose={closeModal}>
               <h2>{message}</h2>
             </Modal>
+
             <button
               type="button"
               className={style.CadastroBotao}

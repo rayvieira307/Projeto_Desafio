@@ -56,5 +56,14 @@ public class AdminService {
 		        }
 		              
 		}
+		
+		public void deletarAdmin(Long id) {
+		    Optional<Admin> admin = repositorio.findById(id); 
+		    if (admin.isPresent()) {
+		        repositorio.delete(admin.get()); 
+		    } else {
+		        throw new RuntimeException("Admin do id: " + id + " não encontrado"); 
+		    }
+		}
 
 }

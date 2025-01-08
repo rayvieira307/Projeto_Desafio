@@ -13,9 +13,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import br.org.desafio_neki.util.JwtAuthenticationFilter;
+import br.org.desafio_neki.util.JwtTokenUtil;
+
 
 @Configuration
 @EnableWebSecurity
@@ -48,15 +53,22 @@ public class SecurityConfig {
 		return new InMemoryUserDetailsManager(admin);
 	}
 	
+	
 	 @Bean
-	    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-	        http
-	            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-	            .csrf(csrf -> csrf.disable()
-	            );
+	 public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	     http
+	         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+	         .csrf(csrf -> csrf.disable())
+	         .authorizeHttpRequests(authz -> authz
+	             .requestMatchers(HttpMethod.POST, "/login").permitAll()  
+	             .anyRequest().permitAll() 
+	         )
+	         .addFilterBefore(new JwtAuthenticationFilter(new JwtTokenUtil()), UsernamePasswordAuthenticationFilter.class); 
 
-	        return http.build();
-	    }
+	     return http.build();
+	 }
+	 
+	 
 
 	
 

@@ -5,14 +5,17 @@ import './Global.css'
 import { AppRoutes } from './routes/AppRoutes';
 import { Footer } from './components/Footer/index'
 import { Header } from './components/Header';
+import { AuthProvider } from './context/Auth';
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-    <Header/>
-    <AppRoutes/>
-    <Footer/> 
+      <AuthProvider> 
+        <Header />
+        <AppRoutes />
+        <Footer />
+      </AuthProvider>
     </BrowserRouter>
-  </StrictMode>,
+  </StrictMode>
 )

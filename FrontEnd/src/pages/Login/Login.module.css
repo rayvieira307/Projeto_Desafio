@@ -1,6 +1,7 @@
 .loginContainer {
+  margin-top: 40px;
   display: flex;
-  margin-bottom: -90px;
+ 
 }
 
 .pularconteudo {
@@ -10,8 +11,8 @@
 }
 
 .ImageFundo{
-  margin-top: 50px ;
-  width: 80%;
+
+  width: 90%;
   background-size: cover;
   background-position: center;
 }
@@ -90,6 +91,12 @@
 }
 
 .CadastroBotao {
+  z-index: 10;
+  height: 40px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
   margin-top: 10px;
   background-color: #4fb889;
   color: #fff;
@@ -209,38 +216,3 @@
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 
-@media (min-width: 768px) and (max-width: 1150px) {
-
-  .LadoEsquerdo,
-  .LadoDireito {
-    width: 100%;
-    padding: 20px;
-  }
-
-  .formularioLogin {
-    width: 60%;
-    max-width: 600px;
-  }
-  
-}  */

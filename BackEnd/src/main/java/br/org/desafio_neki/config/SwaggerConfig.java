@@ -10,9 +10,9 @@ import io.swagger.v3.oas.models.info.License;
 
 @Configuration
 @OpenAPIDefinition(info = @Info(
-        title = "API do projeto Petropolis Participa",
+        title = "API do projeto ",
         version = "1.0",
-        description = "Documentação da API Petropolis Participa"
+        description = "Documentação da Api"
 ))
 public class SwaggerConfig {
 
@@ -24,8 +24,8 @@ public class SwaggerConfig {
                         .version("1.0")
                         .description("Documentação da API")
                         .contact(new Contact()
-                                .name("Equipe")
-                                .url("http://www.petropolis.com.br"))
+                                .name("Rayssa")
+                                .url("http://www.projeto.com.br"))
                         .license(new License()
                                 .name("Apache 2.0")
                                 .url("https://www.apache.org/licenses/LICENSE-2.0")));
