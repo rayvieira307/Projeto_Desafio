@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useState, useEffect } from "react";
+import { AuthContext } from "../../context/Auth";
 import * as Yup from "yup";
 import Modal from "../../components/Modal/Modal";
+import { useNavigate } from "react-router-dom";
 import * as style from "./Login.module.css";
-import { AuthContext } from "../../context/Auth";
 import { FaCalendarDays } from "react-icons/fa6";
 import FundoLogin from "../../assets/FundoLogin.jpg";
 
 export const Login = () => {
-  const { signIn } = useContext(AuthContext);
+  const { signIn, RelembrarSenha, setRelembrarSenha } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [error, setError] = useState(false);
@@ -17,7 +17,20 @@ export const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Validação do formulário com Yup
+  
+  useEffect(() => {
+    if (RelembrarSenha) {
+      const salvarEmail = localStorage.getItem("email");
+      const salvarSenha = localStorage.getItem("senha");
+
+      if (salvarEmail && salvarSenha) {
+        setEmail(salvarEmail);
+        setSenha(salvarSenha);
+      }
+    }
+  }, [RelembrarSenha]);
+
+
   const schema = Yup.object().shape({
     senha: Yup.string().required("Você deve informar sua senha."),
     email: Yup.string()
@@ -28,47 +41,31 @@ export const Login = () => {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      // Validação do formulário
+      
       await schema.validate({ email, senha }, { abortEarly: false });
       setLoading(true);
       setMessage("");
 
-      // Chamada para o signIn do AuthContext
-      const response = await signIn({ email, senha });
-
-
-      if (!response || response.error) {
-        setMessage("Email ou senha incorretos. Tente novamente.");
-        setIsModalOpen(true);
-        setLoading(false);
-        return;
+ 
+      const result = await signIn({ email, senha });
+      
+    
+      if (result?.status !== 200) {
+        throw new Error(result?.message || "Suas Credenciais estão inválidas! Verifique seu email e senha!.");
       }
 
-      
-
       setLoading(false);
-      navigate("/dashboard"); // Navega para a página de eventos após o login
+      navigate("/dashboard");
     } catch (err) {
       setLoading(false);
-      setIsModalOpen(true);
-      // Exibição de mensagens de erro
-      if (err instanceof Yup.ValidationError) {
-        const errorMessage = err.errors.join("\n");
-        setMessage(errorMessage);
-      } else if (err.message === "Email ou senha incorretos. Tente novamente.") {
-        setMessage(err.message);
-      } else {
-        setMessage("Ocorreu um erro inesperado. Tente novamente mais tarde.");
-      }
-      setIsModalOpen(true);
+      setMessage(err.message || "Ocorreu um erro inesperado.");
+      setIsModalOpen(true);  
     }
   };
 
-
-  const closeModal = () => {
-    setIsModalOpen(false)  ;
+  const handleCheckboxChange = () => {
+    setRelembrarSenha(!RelembrarSenha);
   };
-
 
   return (
     <main>
@@ -126,6 +123,8 @@ export const Login = () => {
               <input
                 type="checkbox"
                 aria-label="Lembrar da Senha"
+                checked={RelembrarSenha}  
+                onChange={handleCheckboxChange} 
               />
               Gravar Senha
             </label>
@@ -140,7 +139,7 @@ export const Login = () => {
 
             <p className={style.registerMessage}>Ainda não tem cadastro?</p>
 
-            <Modal isOpen={isModalOpen} onClose={closeModal}>
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
               <h2>{message}</h2>
             </Modal>
 
