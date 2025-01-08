@@ -1,10 +1,15 @@
 package br.org.desafio_neki.domain;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -32,6 +37,19 @@ public class Admin {
     @Column(name = "senha")
     private String senha;
     
+    
+    @OneToMany(mappedBy = "admin")
+    @JsonManagedReference
+    private List<Evento> eventos;
+    
+    
+	public List<Evento> getEventos() {
+		return eventos;
+	}
+
+	public void setEventos(List<Evento> eventos) {
+		this.eventos = eventos;
+	}
 
 	public Long getIdAdmin() {
 		return idAdmin;
