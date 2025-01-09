@@ -13,28 +13,37 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "evento")
 public class Evento {
-   
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_evento")
-	private Long idEvento;
-	
-	private String nome_evento;
-	
-	private LocalDate date;
-	
-	private String localizacao;
-	
-	private String imagem;
-	
-	@ManyToOne
-	@JoinColumn(name = "id_admin")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_evento")
+    private Long idEvento;
+
+    @NotNull
+    @Size(max = 255)
+    @Column(name = "nome_evento", nullable = false, length = 255)
+    private String nome_evento;
+
+    @Column(name = "data", nullable = false)
+    private LocalDate date;
+
+    @Size(max = 500)
+    @Column(name = "localizacao", length = 500)
+    private String localizacao;
+
+    @Size(max = 65535)  // Para permitir URLs grandes
+    @Column(name = "imagem", length = 65535)
+    private String imagem;  // URL da imagem (pode ser muito grande)
+
+    @ManyToOne
+    @JoinColumn(name = "id_admin")
     @JsonBackReference
-	private Admin admin;
+    private Admin admin;
 	
 
 

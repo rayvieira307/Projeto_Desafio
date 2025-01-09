@@ -1,38 +1,27 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './SideBar.module.css'; 
 import { LiaSignOutAltSolid } from 'react-icons/lia';
-import { IoTrashOutline } from 'react-icons/io5';
-import { TbEditCircle } from 'react-icons/tb';
 import { FiPlusCircle } from 'react-icons/fi';
+import ModalAdicionarEvento from '../../components/ModalAdicionarEvento/index';
 
 const Sidebar = () => {
-
-  const navigate = useNavigate();
-
+  const [ModalAdicionar, setModalAdicionar] = useState(false);
+  
+  const openModal = () => setModalAdicionar(true);
+  const closeModal = () => setModalAdicionar(false);
 
   return (
     <div className={styles.sidebar}>
       <div className={styles.sidebarItem}>
-        <Link to="/create-event">
-          <FiPlusCircle size={24} color='black' />
-        </Link>
-      </div>
-      <div className={styles.sidebarItem}>
-        <Link to="/edit-event">
-          <TbEditCircle size={24} color='black' />
-        </Link>
-      </div>
-      <div className={styles.sidebarItem}>
-        <Link to="/delete-event">
-          <IoTrashOutline size={24} color='black' />
-        </Link>
+        <FiPlusCircle size={24} color="black" onClick={openModal} />
       </div>
       <div className={styles.sidebarItem}>
         <Link>
-          <LiaSignOutAltSolid size={24} color='black' />
+          <LiaSignOutAltSolid size={24} color="black" />
         </Link>
       </div>
+      <ModalAdicionarEvento isOpen={ModalAdicionar} onClose={closeModal} />
     </div>
   );
 };
