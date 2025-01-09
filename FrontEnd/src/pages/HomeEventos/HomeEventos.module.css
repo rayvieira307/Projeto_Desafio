@@ -3,3 +3,112 @@
     justify-content: center;
     margin: 0 auto;
 }
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    background-color: #f4f4f9;
+    min-height: 100vh;
+  }
+
+  .title {
+    font-family: 'Arial', sans-serif;
+    font-size: 2rem; /* Tamanho reduzido */
+    text-align: center;
+    color: transparent;
+    background-image: linear-gradient(135deg, #218981, #28895e); /* Tons mais suaves de verde */
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: fadeIn 1s ease-out; 
+    text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    margin-top: 20px; 
+    letter-spacing: 1px;
+  }
+
+  /* Contêiner dos eventos */
+  .eventosContainer {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 20px;
+    margin-top: 30px;
+  }
+  
+  /* Estilo do card de evento */
+  .eventCard {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 220px; /* Largura do card */
+    text-align: center;
+    transition: transform 0.2s ease-in-out; /* Efeito de hover */
+  }
+  
+  .eventCard:hover {
+    transform: translateY(-5px); /* Efeito ao passar o mouse sobre o card */
+  }
+  
+  /* Estilos da imagem do evento */
+  .eventImage {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  /* Título do evento */
+  .eventTitle {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  /* Data e localização do evento */
+  .eventDate {
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
+  }
+  
+  /* Mensagem quando não há eventos */
+  .msg {
+    font-size: 18px;
+    color: #888;
+    text-align: center;
+  }
+  
+  /* Botão de criar evento */
+  .buttonCriar {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .buttonCriar:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Botão para ver todos os eventos */
+  .viewAllButton {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .viewAllButton:hover {
+    background-color: #218838;
+  }

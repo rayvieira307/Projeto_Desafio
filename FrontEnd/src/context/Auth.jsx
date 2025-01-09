@@ -28,12 +28,11 @@ const decodeToken = (token) => {
   return JSON.parse(jsonPayload);
 };
 
-
-
 export const AuthContext = createContext();
-
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [eventos, setEventos] = useState([]);
+  const [nomeAdmin, setNomeAdmin] = useState(null);
   const [loading, setLoading] = useState(true);
   const [RelembrarSenha, setRelembrarSenha] = useState(false);
   const navigate = useNavigate();
@@ -52,6 +51,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
+  //login
   const signIn = async (data) => {
     try {
       const response = await axios.post("http://localhost:8080/login", {
@@ -59,27 +59,18 @@ export const AuthProvider = ({ children }) => {
         senha: data.senha,
       });
   
-      // O token é o próprio response.data
       const token = response.data;
-  
-      console.log("Token recebido:", token);  // Exibe o token que foi recebido
+     console.log("Token recebido:", token);  
   
       if (!token) {
         console.error("Token não recebido");
-        return;  // Se o token não estiver presente, interrompe o fluxo
+        return;  
       }
   
-      // Decodificando o token para acessar as informações
-      const decodedToken = decodeToken(token);  // Função para decodificar o token
-      console.log("Decoded Token:", decodedToken);  // Exibe o conteúdo do token decodificado
-  
-      // Aqui você pode acessar o idAdmin e email no decodedToken
-      if (decodedToken) {
-        console.log("ID Admin:", decodedToken.idAdmin);
-        console.log("Email:", decodedToken.sub);
-      }
-  
-      // Agora, armazene o token e o userData no localStorage
+      const decodedToken = decodeToken(token);  
+      console.log("Decodificação do Token:", decodedToken);  
+    
+    
       if (RelembrarSenha) {
         localStorage.setItem("email", data.email);
         localStorage.setItem("senha", data.senha);
@@ -90,17 +81,104 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("RelembrarSenha");
       }
   
-      // Armazenando o token no localStorage
       localStorage.setItem("token", token);
-      setUser(decodedToken);  // Atualiza o estado do usuário com os dados do token decodificado
+      setUser(decodedToken);
+      fetchEventos(decodedToken.idAdmin); 
   
-      // Redireciona para o dashboard
+      
       navigate("/dashboard");
   
     } catch (error) {
       console.error("Erro:", error);
     }
   }
+
+// Função para obter o nome do administrador
+useEffect(() => {
+  const fetchNomeAdmin = async () => {
+    if (user && user.idAdmin) {
+      try {
+        const response = await axios.get(`http://localhost:8080/admin/${user.idAdmin}`);
+        if (response.status === 200) {
+          setNomeAdmin(response.data.nome); // Armazena o nome do admin no estado
+        }
+      } catch (error) {
+        console.error("Erro ao buscar o nome do admin:", error);
+      }
+    }
+  };
+
+  fetchNomeAdmin();
+}, [user]);
+
+  //Buscando os eventos 
+  const fetchEventos = async (idAdmin) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/evento/eventos/${idAdmin}`); // Passando idAdmin na URL
+      if (response.status === 200) {
+        setEventos(response.data);  // Armazenando os eventos no estado
+        console.log("Eventos recebidos:", response.data);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar eventos:", error);
+    }
+  };
+
+  
+  // Função para cadastrar um novo evento
+  const cadastrarEvento = async (eventData) => {
+    try {
+      const response = await axios.post(`http://localhost:8080/evento/cadastrar?adminId=${user.idAdmin}`, eventData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+  
+      if (response.status === 200) {
+        fetchEventos(user.idAdmin); 
+        console.log("Evento criado com sucesso", response.data);
+      }
+    } catch (error) {
+      console.error("Erro ao criar evento:", error);
+    }
+  };
+
+   // Função para atualizar um evento 
+   const AtualizarEvento = async (eventoId, eventoData) => {
+    try {
+      const response = await axios.put(`http://localhost:8080/evento/${eventoId}`, eventoData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.status === 200) {
+        fetchEventos(user.idAdmin); // Atualiza a lista de eventos
+        console.log("Evento atualizado com sucesso", response.data);
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar evento:", error);
+    }
+  };
+
+   // Função para excluir um evento
+   const deletarEvento = async (eventoId) => {
+    try {
+      const response = await axios.delete(`http://localhost:8080/evento/${eventoId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.status === 200) {
+        fetchEventos(user.idAdmin); 
+        console.log("Evento excluído com sucesso", response.data);
+      }
+    } catch (error) {
+      console.error("Erro ao excluir evento:", error);
+    }
+  };
+
 
   const signOut = () => {
     setUser(null);
@@ -120,8 +198,13 @@ export const AuthProvider = ({ children }) => {
         loading,
         signIn,
         signOut,
+        eventos,
         RelembrarSenha,
         setRelembrarSenha,
+        nomeAdmin,
+        cadastrarEvento,
+        AtualizarEvento,
+        deletarEvento,
       }}
     >
       {loading ? <p>Carregando...</p> : children}
