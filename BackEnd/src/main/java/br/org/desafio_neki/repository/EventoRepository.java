@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface EventoRepository extends JpaRepository<Evento, Long> {
 	
+	
+	
 	public List<Evento> findByAdmin_IdAdmin(Long idAdmin);
     
 }

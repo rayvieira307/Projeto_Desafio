@@ -34,7 +34,7 @@ public class EventoService {
 
      
         Evento evento = new Evento();
-        evento.setNome(eventDTO.getNome());
+        evento.setNome_evento(eventDTO.getNome_evento());
         evento.setDate(eventDTO.getDate());
         evento.setLocalizacao(eventDTO.getLocalizacao());
         evento.setImagem(eventDTO.getImagem());
@@ -48,7 +48,7 @@ public class EventoService {
         Optional<Evento> evento = eventoRepository.findById(eventoId);
         if (evento.isPresent()) {
             Evento updatedEvento = evento.get();
-            updatedEvento.setNome(eventDTO.getNome());
+            updatedEvento.setNome_evento(eventDTO.getNome_evento());
             updatedEvento.setDate(eventDTO.getDate());
             updatedEvento.setLocalizacao(eventDTO.getLocalizacao());
             updatedEvento.setImagem(eventDTO.getImagem());

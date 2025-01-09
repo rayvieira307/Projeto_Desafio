@@ -61,7 +61,7 @@ public class SecurityConfig {
 	         .csrf(csrf -> csrf.disable())
 	         .authorizeHttpRequests(authz -> authz
 	             .requestMatchers(HttpMethod.POST, "/login").permitAll()  
-	             .anyRequest().permitAll() 
+	             .anyRequest().permitAll()
 	         )
 	         .addFilterBefore(new JwtAuthenticationFilter(new JwtTokenUtil()), UsernamePasswordAuthenticationFilter.class); 
 

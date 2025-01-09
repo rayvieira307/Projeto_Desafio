@@ -23,7 +23,7 @@ public class Evento {
 	@Column(name="id_evento")
 	private Long idEvento;
 	
-	private String nome;
+	private String nome_evento;
 	
 	private LocalDate date;
 	
@@ -36,15 +36,7 @@ public class Evento {
     @JsonBackReference
 	private Admin admin;
 	
-	public Evento(Long idEvento, String nome, LocalDate date, String localizacao, String imagem, Admin admin) {
-		super();
-		this.idEvento = idEvento;
-		this.nome = nome;
-		this.date = date;
-		this.localizacao = localizacao;
-		this.imagem = imagem;
-		this.admin = admin;
-	}
+
 
 	public Evento() {
 		// TODO Auto-generated constructor stub
@@ -58,12 +50,22 @@ public class Evento {
 		this.idEvento = idEvento;
 	}
 
-	public String getNome() {
-		return nome;
+	public Evento(Long idEvento, String nome_evento, LocalDate date, String localizacao, String imagem, Admin admin) {
+		super();
+		this.idEvento = idEvento;
+		this.nome_evento = nome_evento;
+		this.date = date;
+		this.localizacao = localizacao;
+		this.imagem = imagem;
+		this.admin = admin;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public String getNome_evento() {
+		return nome_evento;
+	}
+
+	public void setNome_evento(String nome_evento) {
+		this.nome_evento = nome_evento;
 	}
 
 	public LocalDate getDate() {
