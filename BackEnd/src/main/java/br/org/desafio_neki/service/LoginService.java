@@ -29,6 +29,6 @@ public class LoginService {
         }
 
 
-        return JwtTokenUtil.gerarToken(admin.getEmail());
+        return JwtTokenUtil.gerarToken(admin.getEmail(), admin.getIdAdmin());
     }
 }

@@ -14,10 +14,11 @@ public class JwtTokenUtil {
     private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256); 
    
     // Gera o token JWT
-    public static String gerarToken(String email) {
+    public static String gerarToken(String email, Long idAdmin) {
         return Jwts.builder()
-            .setSubject(email)
-            .signWith(SECRET_KEY) // Usa a chave gerada de forma segura
+            .setSubject(email) // O subject ainda é o email
+            .claim("idAdmin", idAdmin) // Adiciona o idAdmin como um claim
+            .signWith(SECRET_KEY) // Usa a chave de assinatura
             .compact();
     }
 
@@ -29,6 +30,17 @@ public class JwtTokenUtil {
         }
         return null;
     }
+    
+    
+    public static Long getIdAdminFromToken(String token) {
+        JwtParser jwtParser = Jwts.parserBuilder()
+            .setSigningKey(SECRET_KEY)
+            .build();
+
+        Claims claims = jwtParser.parseClaimsJws(token).getBody();
+        return claims.get("idAdmin", Long.class); // Obtém o idAdmin dos claims
+    }
+    
 
     // Valida o token
     public static boolean validateToken(String token) {
@@ -55,4 +67,6 @@ public class JwtTokenUtil {
         Claims claims = jwtParser.parseClaimsJws(token).getBody();
         return claims.getSubject(); // Retorna o subject, que no caso é o email
     }
+    
+    
 }
