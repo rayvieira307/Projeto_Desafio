@@ -4,6 +4,7 @@
     margin: 0 auto;
 }
 
+
 .container {
     display: flex;
     flex-direction: column;
@@ -69,29 +70,34 @@
     object-fit: cover;
     border-radius: 8px;
   }
-  
-  /* Título do evento */
-  .eventTitle {
-    font-size: 18px;
+
+  .eventName {
+    font-size: 19px;
     color: #007BFF;
     font-weight: bold;
     margin-top: 10px;
+    margin-bottom: 5px;
   }
   
-  /* Data e localização do evento */
   .eventDate {
-    margin-top: 6px;
+    margin-top: 8px;
+    margin-bottom: 8px;
     font-size: 15px;
-    color: #0b0b0b;
+    color: #000000;
     
   }
 
+  .eventLocation{
+    font-size: 15px;
+  }
+  
+
   .msg {
+    margin-left: 18px;
     font-size: 18px;
     color: #888;
     text-align: center;
   }
-  
   /* Botão de criar evento */
   .buttonCriar {
     background-color: #007BFF;
@@ -107,12 +113,17 @@
     background-color: #0056b3;
   }
 
-  .Icones {
+  .icons{
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    font-size: 24px;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
     color: #333;
+  }
+  .Icones {
+    font-size: 28px;
+    color: #010101;
     cursor: pointer;
     transition: color 0.3s ease;
   }
@@ -121,6 +132,11 @@
     color: #007bff; 
   }
 
-
+@media (max-width: 768px){
+  .title{
+    font-size: 1.5rem;
+    margin-left: 20px;
+  }
+}
   
   

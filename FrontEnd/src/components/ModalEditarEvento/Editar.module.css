@@ -11,6 +11,12 @@
     z-index: 999; 
     animation: fadeIn 0.3s ease-out; 
   }
+
+   .TitlePrincipal{
+    margin: 10px;
+    text-align: center;
+  }
+  
   
   .modalContent {
     background-color: #fff;

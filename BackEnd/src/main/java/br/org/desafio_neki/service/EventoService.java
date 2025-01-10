@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 
 import br.org.desafio_neki.domain.Admin;
 import br.org.desafio_neki.domain.Evento;
+import br.org.desafio_neki.dto.AtualizarEventoDto;
 import br.org.desafio_neki.dto.CadastroEventoDto;
-import br.org.desafio_neki.repository.AdminRepository; 
+import br.org.desafio_neki.repository.AdminRepository;
 import br.org.desafio_neki.repository.EventoRepository;
 
 @Service
@@ -44,14 +45,12 @@ public class EventoService {
     }
 
     // Atualizar evento
-    public Optional<Evento> updateEvento(Long eventoId, CadastroEventoDto eventDTO) {
+    public Optional<Evento> updateEvento(Long eventoId, AtualizarEventoDto eventDTO) {
         Optional<Evento> evento = eventoRepository.findById(eventoId);
         if (evento.isPresent()) {
             Evento updatedEvento = evento.get();
-            updatedEvento.setNome_evento(eventDTO.getNome_evento());
             updatedEvento.setDate(eventDTO.getDate());
             updatedEvento.setLocalizacao(eventDTO.getLocalizacao());
-            updatedEvento.setImagem(eventDTO.getImagem());
 
             return Optional.of(eventoRepository.save(updatedEvento));
         }

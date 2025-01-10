@@ -32,4 +32,8 @@
     width: 8%;  
   }
 
+  .sidebarItem:hover {
+    width: 40px;
+  }
+
 }

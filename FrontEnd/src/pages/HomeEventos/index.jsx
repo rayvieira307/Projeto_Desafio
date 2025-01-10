@@ -1,28 +1,34 @@
-import React, { useState, useContext } from 'react';
-import styles from './HomeEventos.module.css'; 
-import { AuthContext } from '../../context/Auth';
-import ModalEditarEvento from '../../components/ModalEditarEvento';
-import ModalExcluirEvento from '../../components/ModalExcluirEvento';
+import React, { useState, useContext } from "react";
+import styles from "./HomeEventos.module.css";
+import { AuthContext } from "../../context/Auth";
+import ModalEditarEvento from "../../components/ModalEditarEvento";
+import ModalExcluirEvento from "../../components/ModalExcluirEvento";
 import SideBar from "../../components/SideBar/index";
-import { TbEditCircle } from 'react-icons/tb';
-import { IoTrashOutline } from 'react-icons/io5';
+import { CiEdit } from "react-icons/ci";
+import { GoTrash } from "react-icons/go";
+
+const FormatarData = (dateString) => {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat("pt-BR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(date);
+};
 
 export const HomeEventos = () => {
-  const { eventos, loading, nomeAdmin, AtualizarEvento, DeletarEvento } = useContext(AuthContext);
-  const [hoveredEvent, setHoveredEvent] = useState(null);
+  const { eventos, loading, nomeAdmin } = useContext(AuthContext);
+  const [eventoSelecionado, setEventoSelecionado] = useState(null);
   const [modalEditOpen, setModalEditOpen] = useState(false);
   const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null);
 
-  // Função para abrir o modal de edição
-  const handleEdit = (event) => {
-    setSelectedEvent(event);
+  const handleEdit = (evento) => {
+    setEventoSelecionado(evento);
     setModalEditOpen(true);
   };
 
-  // Função para abrir o modal de exclusão
-  const handleDelete = (event) => {
-    setSelectedEvent(event);
+  const handleDelete = (evento) => {
+    setEventoSelecionado(evento);
     setModalDeleteOpen(true);
   };
 
@@ -31,47 +37,68 @@ export const HomeEventos = () => {
   return (
     <>
       <SideBar />
-      <div className={styles.container}>
-        <h1 className={styles.title}>Bem-vindo, {nomeAdmin || 'Carregando...'}</h1>
+      <main className={styles.container}>
+        <header>
+          <h1 className={styles.title}>
+            Bem-vindo, {nomeAdmin || "Usuário"}! Gerencie seus eventos aqui.
+          </h1>
+        </header>
 
-        <div className={styles.eventosContainer}>
+        <section className={styles.eventosContainer}>
           {eventos.length > 0 ? (
-            eventos.map((event) => (
-              <div
-                key={event.idEvento}
+            eventos.map((evento) => (
+              <article
+                key={evento.idEvento}
                 className={styles.eventCard}
-                onMouseEnter={() => setHoveredEvent(event.idEvento)}
-                onMouseLeave={() => setHoveredEvent(null)}
+                onMouseEnter={() => setEventoSelecionado(evento.idEvento)}
+                onMouseLeave={() => setEventoSelecionado(null)}
               >
                 <img
-                  src={event.imagem}
-                  alt={event.nome_evento}
+                  src={evento.imagem}
+                  alt={`Imagem do evento ${evento.nome_evento}`}
                   className={styles.eventImage}
                 />
-                <h2 className={styles.eventTitle}>{event.nome_evento}</h2>
-                <p className={styles.eventDate}>{event.date}</p>
-                <p className={styles.eventLocation}>{event.localizacao}</p>
+                <h2 className={styles.eventName}>{evento.nome_evento}</h2>
+                <p className={styles.eventDate}>
+                  {FormatarData(evento.date)}
+                </p>
+                <p className={styles.eventLocation}>{evento.localizacao}</p>
 
-                {hoveredEvent === event.idEvento && (
+                {eventoSelecionado === evento.idEvento && (
                   <div className={styles.icons}>
-                    <button onClick={() => handleEdit(event)}><TbEditCircle className={styles.Icones}/></button>
-                    <button onClick={() => handleDelete(event)}> <IoTrashOutline className={styles.Icones} /></button>
+                    <button
+                      aria-label="Editar evento"
+                      onClick={() => handleEdit(evento)}
+                    >
+                      <CiEdit className={styles.Icones} title="EDITAR EVENTO" />
+                    </button>
+                    <button
+                      aria-label="Excluir evento"
+                      onClick={() => handleDelete(evento)}
+                    >
+                      <GoTrash className={styles.Icones} title="EXCLUIR EVENTO"  />
+                    </button>
                   </div>
                 )}
-              </div>
+              </article>
             ))
           ) : (
-            <p className={styles.msg}>Não há eventos cadastrados.</p>
+            <div>
+              <p className={styles.msg}>Não há eventos cadastrados :/</p>
+              <p className={styles.msg}>
+                Clique no ícone de adicionar para criar um evento :)
+              </p>
+            </div>
           )}
-        </div>
-      </div>
+        </section>
+      </main>
 
       {/* Modal de Edição */}
       {modalEditOpen && (
         <ModalEditarEvento
           isOpen={modalEditOpen}
           onClose={() => setModalEditOpen(false)}
-          evento={selectedEvent}
+          evento={eventoSelecionado}
         />
       )}
 
@@ -80,7 +107,7 @@ export const HomeEventos = () => {
         <ModalExcluirEvento
           isOpen={modalDeleteOpen}
           onClose={() => setModalDeleteOpen(false)}
-          evento={selectedEvent}
+          evento={eventoSelecionado}
         />
       )}
     </>

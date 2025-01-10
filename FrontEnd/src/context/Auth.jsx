@@ -32,6 +32,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [eventos, setEventos] = useState([]);
+  const [eventoId, setEventoId] = useState(null);
   const [nomeAdmin, setNomeAdmin] = useState(null);
   const [loading, setLoading] = useState(true);
   const [RelembrarSenha, setRelembrarSenha] = useState(false);
@@ -93,14 +94,14 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-// Função para obter o nome do administrador
+//buscar nome admin
 useEffect(() => {
   const fetchNomeAdmin = async () => {
     if (user && user.idAdmin) {
       try {
         const response = await axios.get(`http://localhost:8080/admin/${user.idAdmin}`);
         if (response.status === 200) {
-          setNomeAdmin(response.data.nome); // Armazena o nome do admin no estado
+          setNomeAdmin(response.data.nome); 
         }
       } catch (error) {
         console.error("Erro ao buscar o nome do admin:", error);
@@ -111,67 +112,106 @@ useEffect(() => {
   fetchNomeAdmin();
 }, [user]);
 
-  //Buscando os eventos 
+//buscar eventos
   const fetchEventos = async (idAdmin) => {
     try {
-      const response = await axios.get(`http://localhost:8080/evento/eventos/${idAdmin}`); // Passando idAdmin na URL
+      const response = await axios.get(`http://localhost:8080/evento/eventos/${idAdmin}`);
+      
       if (response.status === 200) {
-        setEventos(response.data);  // Armazenando os eventos no estado
-        console.log("Eventos recebidos:", response.data);
+        setEventos(response.data);  
+  
+      
+        if (response.data.length > 0) {
+          setEventoId(response.data[0].idEvento);
+        } else {
+          setEventoId(null);
+        }
       }
     } catch (error) {
-      console.error("Erro ao buscar eventos:", error);
+      console.error("Erro ao buscar eventos:", error.response?.data || error.message);
     }
   };
-
   
-  // Função para cadastrar um novo evento
+//cadastrar eventos
   const cadastrarEvento = async (eventData) => {
     try {
-      const response = await axios.post(`http://localhost:8080/evento/cadastrar?adminId=${user.idAdmin}`, eventData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await axios.post(
+        `http://localhost:8080/evento/cadastrar?adminId=${user.idAdmin}`,
+        eventData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        fetchEventos(user.idAdmin);
+        setEventoId(response.data.idEvento);
+        console.log("Evento criado com sucesso:", response.data);
+      }
+    } catch (error) {
+      console.error("Erro ao criar evento:", error.response?.data || error.message);
+    }
+  };
+
+  // Função para atualizar um evento
+  const AtualizarEvento = async (eventoId, eventData) => {
+   
+    if (!eventoId || !eventData) {
+      console.error("ID ou dados do evento não fornecidos.");
+      return;
+    }
+  
+    try {
+      const eventoDataAtualizado = {
+        date: eventData.date,
+        localizacao: eventData.localizacao,
+      };
+  
+      console.log("Payload que será enviado para atualização:", eventoDataAtualizado);
+  
+      const response = await axios.put(
+        `http://localhost:8080/evento/atualizar/${eventoId}`, 
+        eventoDataAtualizado,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
   
       if (response.status === 200) {
-        fetchEventos(user.idAdmin); 
-        console.log("Evento criado com sucesso", response.data);
-      }
-    } catch (error) {
-      console.error("Erro ao criar evento:", error);
-    }
-  };
-
-   // Função para atualizar um evento 
-   const AtualizarEvento = async (eventoId, eventoData) => {
-    try {
-      const response = await axios.put(`http://localhost:8080/evento/${eventoId}`, eventoData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-
-      if (response.status === 200) {
-        fetchEventos(user.idAdmin); // Atualiza a lista de eventos
         console.log("Evento atualizado com sucesso", response.data);
+        fetchEventos(user.idAdmin); 
       }
     } catch (error) {
-      console.error("Erro ao atualizar evento:", error);
+      console.error("Erro ao atualizar evento:", error.response ? error.response.data : error);
     }
   };
 
-   // Função para excluir um evento
-   const deletarEvento = async (eventoId) => {
+ //deletar evento
+  const deletarEvento = async (eventoId) => {
     try {
-      const response = await axios.delete(`http://localhost:8080/evento/${eventoId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-
+    
+      if (!eventoId) {
+        console.error("ID do evento não fornecido para exclusão.");
+        return;
+      }
+  
+    
+      const response = await axios.delete(
+        `http://localhost:8080/evento/${eventoId}`, 
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,  
+          },
+        }
+      );
+  
       if (response.status === 200) {
-        fetchEventos(user.idAdmin); 
+      
+        fetchEventos(user.idAdmin);  
         console.log("Evento excluído com sucesso", response.data);
       }
     } catch (error) {
@@ -179,14 +219,9 @@ useEffect(() => {
     }
   };
 
-
   const signOut = () => {
     setUser(null);
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    localStorage.removeItem("email");
-    localStorage.removeItem("senha");
-    localStorage.removeItem("RelembrarSenha");
+    localStorage.clear();
     navigate("/");
   };
 
@@ -205,6 +240,8 @@ useEffect(() => {
         cadastrarEvento,
         AtualizarEvento,
         deletarEvento,
+        eventoId,
+        setEventoId
       }}
     >
       {loading ? <p>Carregando...</p> : children}

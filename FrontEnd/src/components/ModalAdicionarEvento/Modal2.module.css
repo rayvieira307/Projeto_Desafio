@@ -12,6 +12,11 @@
   animation: fadeIn 0.3s ease-out; 
 }
 
+.TitlePrincipal{
+  margin: 20px;
+  text-align: center;
+}
+
 .modalContent {
   background-color: #fff;
   padding: 30px;

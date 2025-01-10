@@ -5,3 +5,8 @@
     font-family: 'Poppins', sans-serif;
   }
 
+
+  button{
+    background: transparent;
+    border: transparent;
+  }

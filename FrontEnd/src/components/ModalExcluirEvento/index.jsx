@@ -4,15 +4,21 @@ import { AuthContext } from '../../context/Auth';
 import styles from './Excluir.module.css';
 
 const ModalExcluirEvento = ({ isOpen, onClose, evento }) => {
-  const { DeletarEvento } = useContext(AuthContext);
+  const { deletarEvento } = useContext(AuthContext);
   const [mensagem, setMensagem] = useState("");
   const [isModalMessageOpen, setIsModalMessageOpen] = useState(false);
 
   if (!isOpen) return null;
 
   const handleExcluirEvento = async () => {
+    if (!evento) {
+      setMensagem("Evento não encontrado.");
+      setIsModalMessageOpen(true);
+      return;
+    }
+
     try {
-      await DeletarEvento(evento.idEvento);
+      await deletarEvento(evento.idEvento); 
       setMensagem("Evento excluído com sucesso!");
       setIsModalMessageOpen(true);
 
@@ -28,22 +34,33 @@ const ModalExcluirEvento = ({ isOpen, onClose, evento }) => {
 
   return (
     <>
-      <div className={styles.modalOverlay}>
+      <div className={styles.modalOverlay} aria-live="assertive" role="dialog" aria-labelledby="modalExcluirTitle" aria-describedby="modalExcluirDesc">
         <div className={styles.modalContent}>
-          <h2>Excluir Evento</h2>
-          <p>Tem certeza de que deseja excluir o evento "{evento?.nome_evento}"?</p>
+          <h2 id="modalExcluirTitle" className={styles.title}>Excluir Evento</h2>
+          <p id="modalExcluirDesc" className={styles.msgExcluir}>
+            Tem certeza de que deseja <b>excluir</b> o evento <b>{evento?.nome_evento}</b>?
+          </p>
 
-          <div className={styles.BotaoContainer}>
-            <button onClick={handleExcluirEvento} className={styles.AdicionarButton}>
+          <div className={styles.ContainerBotao}>
+            <button 
+              onClick={handleExcluirEvento} 
+              className={styles.AdicionarButton} 
+              aria-label={`Confirmar a exclusão do evento ${evento?.nome_evento}`}
+            >
               Confirmar
             </button>
-            <button onClick={onClose} className={styles.CancelarButton}>
+            <button 
+              onClick={onClose} 
+              className={styles.CancelarButton} 
+              aria-label="Cancelar a exclusão do evento"
+            >
               Cancelar
             </button>
           </div>
         </div>
       </div>
 
+   
       <Modal isOpen={isModalMessageOpen} onClose={() => setIsModalMessageOpen(false)}>
         <h2>{mensagem}</h2>
       </Modal>

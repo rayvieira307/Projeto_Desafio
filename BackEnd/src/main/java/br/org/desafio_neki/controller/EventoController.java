@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.org.desafio_neki.domain.Evento;
+import br.org.desafio_neki.dto.AtualizarEventoDto;
 import br.org.desafio_neki.dto.CadastroEventoDto;
 import br.org.desafio_neki.service.EventoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,10 +42,10 @@ public class EventoController {
     }
     
     
-    @Operation(summary = "Atualiza todos os eventos com suas informações, incluindo imagem.")
+    @Operation(summary = "Atualiza todos o evento com o campo localizacao e data.")
     @ApiResponse(responseCode = "200", description = "Evento do Admin atualizado.")
     @PutMapping("/atualizar/{eventoId}")
-    public Evento updateEvent(@PathVariable Long eventoId, @RequestBody CadastroEventoDto eventDTO) {
+    public Evento updateEvent(@PathVariable Long eventoId, @RequestBody AtualizarEventoDto eventDTO) {
         return eventoService.updateEvento(eventoId, eventDTO).orElse(null);
     }
 
