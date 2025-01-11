@@ -54,8 +54,12 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
   },
 
-  checkboxContainer:{
-    
+  modalMessage: {
+    fontSize: 20, 
+    color: '#000', 
+    textAlign: 'center', 
+    marginRight: 10,
+    marginTop: -32
   }
 
 });

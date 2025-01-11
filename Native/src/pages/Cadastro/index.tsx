@@ -4,6 +4,7 @@ import { Text, TouchableOpacity, View, TextInput, Image } from "react-native";
 import { styles } from "./style"; // Importando os estilos que você criou
 import Image2 from "../../../assets/cadastro.png"
 import { useNavigation } from "@react-navigation/native";
+import Modal from "../../components/Modal";
 
 interface FormData {
   nome: string;
@@ -14,6 +15,7 @@ interface FormData {
 export const Cadastro = () => {
 
   const [message, setMessage] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation = useNavigation();
 
   const [formData, setFormData] = useState({
@@ -35,6 +37,7 @@ export const Cadastro = () => {
 
     if (formData.senha !== formData.confirmasenha) {
       setMessage("Senha e Confirma Senha não são iguais.");
+      setIsModalVisible(true);
       return; 
     }
   
@@ -51,12 +54,14 @@ export const Cadastro = () => {
       
     
       setMessage("Cadastro realizado com sucesso!");
+      setIsModalVisible(true); 
       console.log("Cadastro realizado:", response.data);
       navigation.navigate('Login');
     } catch (error) {
       
       console.error("Erro ao realizar o cadastro:", error);
       setMessage("Erro ao realizar o cadastro. Tente novamente.");
+      setIsModalVisible(true); 
     }
   };
 
@@ -71,7 +76,7 @@ export const Cadastro = () => {
         alt="Icone de cadastrar"
       />
       <View style={styles.boxMid}>
-        {/* Nome */}
+       
         <TextInput
           style={styles.input}
           placeholder="Nome"
@@ -79,7 +84,7 @@ export const Cadastro = () => {
           onChangeText={(text) => handleChange("nome", text)}
         />
 
-        {/* Email */}
+       
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -88,7 +93,7 @@ export const Cadastro = () => {
           keyboardType="email-address"
         />
 
-        {/* Senha */}
+       
         <TextInput
           style={styles.input}
           placeholder="Senha"
@@ -97,7 +102,7 @@ export const Cadastro = () => {
           onChangeText={(text) => handleChange("senha", text)}
         />
 
-        {/* Confirmar Senha */}
+        
         <TextInput
           style={styles.input}
           placeholder="Confirmar Senha"
@@ -113,7 +118,10 @@ export const Cadastro = () => {
         <Text style={styles.buttonText}>Cadastrar</Text>
       </TouchableOpacity>
       
-        {message ? <Text style={styles.message}>{message}</Text> : null}
+      <Modal isOpen={isModalVisible} onClose={() => setIsModalVisible(false)}>
+        <Text style={styles.modalMessage} >{message}</Text>
+      </Modal>
+      
     </View>
     </>
   );

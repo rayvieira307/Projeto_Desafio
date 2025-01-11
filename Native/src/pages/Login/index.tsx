@@ -13,38 +13,46 @@ import { useNavigation } from "@react-navigation/native";
 import { TextInputField } from "../../components/TextInput";
 import { ButtonTypes } from "../../components/ButtonTypes";
 import ImageLogo from "../../../assets/FundoLogin.jpg";
-import { useAuth } from "../../hooks/useAuth"; // Use o hook para acessar o contexto de autenticação
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAuth } from "../../hooks/useAuth";
+import Modal from "../../components/Modal";
 
 export const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [senha, setSenha] = useState<string>("");
   const [lembrarSenha, setLembrarSenha] = useState<boolean>(false);
-  const { signIn, setRelembrarSenha } = useAuth(); // Usando o hook para acessar o contexto de autenticação
+  const { signIn } = useAuth();
   const navigation = useNavigation();
+  const [message, setMessage] = useState("");  
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
 
   useEffect(() => {
-    const checkSavedCredentials = () => {
-      const savedEmail = localStorage.getItem("email");
-      const savedSenha = localStorage.getItem("senha");
-      const savedRelembrarSenha = localStorage.getItem("RelembrarSenha");
+    const loadCredentials = async () => {
+      const Email = await AsyncStorage.getItem("email");
+      const Senha = await AsyncStorage.getItem("senha");
+      const RelembrarSenha = await AsyncStorage.getItem("RelembrarSenha");
 
-      if (savedEmail && savedSenha && savedRelembrarSenha === "true") {
-        setEmail(savedEmail);
-        setSenha(savedSenha);
+      if (RelembrarSenha === "true") {
+        setEmail(Email || "");
+        setSenha(Senha || "");
         setLembrarSenha(true);
       }
     };
 
-    checkSavedCredentials();
+    loadCredentials();
   }, []);
 
+
   const handleLogin = () => {
-    if (email && senha) {
-      signIn({ email, senha }); // Chamando o signIn do contexto
-    } else {
-      Alert.alert("Erro", "Por favor, preencha todos os campos.");
+    if (!email || !senha) {
+      setMessage("Erro ao fazer login. Tente novamente. Verifique se os campos estão preenchidos! Ou se as credenciais estão corretas!");
+      setIsModalVisible(true);
     }
+
+    signIn({ email, senha });
   };
+
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -73,27 +81,27 @@ export const Login = () => {
           />
 
           {/* Checkbox para lembrar senha */}
-          <View style={styles.checkboxContainer}>
+          <View>
             <TouchableOpacity
               onPress={() => {
                 const newValue = !lembrarSenha;
                 setLembrarSenha(newValue);
-                setRelembrarSenha(newValue); // Atualiza o estado do contexto
+      
               }}
             >
               <Image
                 source={
                   lembrarSenha
-                    ? require("../../../assets/logo.png")
-                    : require("../../../assets/logo.png")
+                    ? require("../../../assets/desmarcado.jpg")
+                    : require("../../../assets/marcado.jpg")
                 }
-                style={{ width: 24, height: 24 }}
+                style={{ width: 20, height: 20, marginRight: 130, marginTop: 22 }}
               />
             </TouchableOpacity>
-            <Text>Lembrar senha</Text>
           </View>
+            <Text style ={{marginTop: -23, marginLeft: 20, fontSize: 18}}>Lembrar senha</Text>
 
-          <ButtonTypes title="Login" handleFunction={handleLogin} />
+            <ButtonTypes title="Login" handleFunction={handleLogin} />
 
           <Text style={styles.or}>Ainda não tem cadastro?</Text>
 
@@ -104,6 +112,9 @@ export const Login = () => {
             <Text style={styles.textAccount}>Cadastre-se</Text>
           </TouchableOpacity>
         </View>
+        <Modal isOpen={isModalVisible} onClose={() => setIsModalVisible(false)}>
+          <Text style={styles.modalMessage}>{message}</Text>
+        </Modal>
       </View>
     </TouchableWithoutFeedback>
   );

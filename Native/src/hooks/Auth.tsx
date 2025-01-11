@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState, ReactNode } from "react";
-import { useNavigation } from "@react-navigation/native";  // Importa o hook de navegação
+import { useNavigation } from "@react-navigation/native"; 
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -40,15 +40,7 @@ const decodeToken = (token: string | null) => {
 
   const base64Url = parts[1];
   const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  const jsonPayload = decodeURIComponent(
-    atob(base64)
-      .split("")
-      .map(function (c) {
-        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join("")
-  );
-
+  const jsonPayload = atob(base64);
   return JSON.parse(jsonPayload);
 };
 
@@ -59,7 +51,7 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const navigation = useNavigation();  // Usando o hook de navegação
+  const navigation = useNavigation();
   const [user, setUser] = useState<User | null>(null);
   const [eventos, setEventos] = useState<any[]>([]);
   const [eventoId, setEventoId] = useState<string | null>(null);
@@ -69,13 +61,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   // Função de login
   const signIn = async (data: { email: string; senha: string }) => {
+    setLoading(true);  // Define que está carregando ao tentar logar
     try {
+  
       const response = await axios.post("http://localhost:8080/login", {
         email: data.email,
         senha: data.senha,
       });
 
       const token = response.data;
+      console.log("Token recebido:", token);
 
       if (!token) {
         console.error("Token não recebido");
@@ -85,32 +80,33 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const decodedToken = decodeToken(token);
 
       if (RelembrarSenha) {
-       AsyncStorage.setItem("email", data.email);
-       AsyncStorage.setItem("senha", data.senha);
-       AsyncStorage.setItem("RelembrarSenha", "true");
+        AsyncStorage.setItem("email", data.email);
+        AsyncStorage.setItem("senha", data.senha);
+        AsyncStorage.setItem("RelembrarSenha", "true");
       } else {
-       AsyncStorage.removeItem("email");
-       AsyncStorage.removeItem("senha");
-       AsyncStorage.removeItem("RelembrarSenha");
+        AsyncStorage.removeItem("email");
+        AsyncStorage.removeItem("senha");
+        AsyncStorage.removeItem("RelembrarSenha");
       }
 
-     AsyncStorage.setItem("token", token);
+      AsyncStorage.setItem("token", token);
       setUser(decodedToken);
-      // Navegar para a tela de Dashboard
-      navigation.navigate("Dashboard");
+      setLoading(false);  
+      navigation.navigate("Dashboard");  
 
     } catch (error) {
       console.error("Erro:", error);
+      setLoading(false);  
     }
   };
 
   // Função de logout
   const signOut = () => {
     setUser(null);
-   AsyncStorage.clear();
-    // Navegar para a tela de Login
-    navigation.navigate("Login");
+    AsyncStorage.clear();  // Limpa tudo do AsyncStorage
+    navigation.navigate("Login");  // Navegar para a tela de Login
   };
+
 
   return (
     <AuthContext.Provider

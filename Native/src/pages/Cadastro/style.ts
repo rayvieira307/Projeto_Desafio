@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     marginLeft: 5,
     fontSize: 28,
-    fontWeight: 600,
+    fontWeight: 700,
     color: "#000",
   },
 
@@ -65,11 +65,11 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  message: {
-    marginTop: 20,
-    marginBottom: 10,
-    fontSize: 18,
-    color: "#000",
-    textAlign: "center",
-  },
+  modalMessage: {
+    fontSize: 20, 
+    color: '#000', 
+    textAlign: 'center', 
+    paddingHorizontal: 20, 
+    marginTop: -28
+  }
 });
