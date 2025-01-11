@@ -1,7 +1,6 @@
 export type PropsStack = {
-    Instituicao: { nome: string; id: number };
     Login: undefined;
-    Home: undefined;
+    Dashboard: undefined;
     Cadastro: undefined;
   };
   

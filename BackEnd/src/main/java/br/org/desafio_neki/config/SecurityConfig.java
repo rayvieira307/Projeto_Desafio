@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -31,7 +30,7 @@ public class SecurityConfig {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
 		corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-		corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+		corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "*"));
 		corsConfiguration.setExposedHeaders(Arrays.asList("Content-Type", "Authorization"));
 
 		// Configuração do Cors para a URL
@@ -55,22 +54,16 @@ public class SecurityConfig {
 	
 	
 	 @Bean
-	 public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-	     http
-	         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-	         .csrf(csrf -> csrf.disable())
-	         .authorizeHttpRequests(authz -> authz
-	             .requestMatchers(HttpMethod.POST, "/login").permitAll()  
-	             .anyRequest().permitAll()
-	         )
-	         .addFilterBefore(new JwtAuthenticationFilter(new JwtTokenUtil()), UsernamePasswordAuthenticationFilter.class); 
+	    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	        http
+	            .cors(cors -> cors.configurationSource(corsConfigurationSource())) 
+	            .csrf(csrf -> csrf.disable()) 
+	            .authorizeHttpRequests(authz -> authz
+	                .anyRequest().permitAll()  
+	            )
+	            .addFilterBefore(new JwtAuthenticationFilter(new JwtTokenUtil()), UsernamePasswordAuthenticationFilter.class); 
 
-	     return http.build();
-	 }
-	 
-	 
-
-	
-
+	        return http.build();
+	    }
 	    		
 }

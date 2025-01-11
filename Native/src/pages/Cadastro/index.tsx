@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Text, TouchableOpacity, View, TextInput, Image } from "react-native";
 import { styles } from "./style"; // Importando os estilos que você criou
 import Image2 from "../../../assets/cadastro.png"
+import { useNavigation } from "@react-navigation/native";
 
 interface FormData {
   nome: string;
@@ -11,7 +12,9 @@ interface FormData {
   confirmasenha: string;
 }
 export const Cadastro = () => {
+
   const [message, setMessage] = useState("");
+  const navigation = useNavigation();
 
   const [formData, setFormData] = useState({
     nome: "",
@@ -29,22 +32,29 @@ export const Cadastro = () => {
   };
 
   const handleSubmit = async () => {
+
     if (formData.senha !== formData.confirmasenha) {
       setMessage("Senha e Confirma Senha não são iguais.");
-      return;
+      return; 
     }
-
+  
+    
     const dataToSend = {
       nome: formData.nome,
       email: formData.email,
       senha: formData.senha,
     };
-
+  
     try {
+      
       const response = await axios.post("http://localhost:8080/admin", dataToSend);
+      
+    
       setMessage("Cadastro realizado com sucesso!");
       console.log("Cadastro realizado:", response.data);
+      navigation.navigate('Login');
     } catch (error) {
+      
       console.error("Erro ao realizar o cadastro:", error);
       setMessage("Erro ao realizar o cadastro. Tente novamente.");
     }
@@ -96,10 +106,9 @@ export const Cadastro = () => {
           onChangeText={(text) => handleChange("confirmasenha", text)}
         />
 
-        {/* Mensagem de erro ou sucesso */}
+        
       </View>
 
-      {/* Botão de Enviar */}
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>Cadastrar</Text>
       </TouchableOpacity>

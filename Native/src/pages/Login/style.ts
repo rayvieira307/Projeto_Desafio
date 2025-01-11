@@ -54,5 +54,9 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
   },
 
+  checkboxContainer:{
+    
+  }
+
 });
 
