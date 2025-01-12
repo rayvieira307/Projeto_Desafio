@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Alert,
-  Keyboard,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-  Image,
-} from "react-native";
+import {Keyboard,Text,TouchableOpacity,TouchableWithoutFeedback,View,Image,} from "react-native";
 import { styles } from "./style";
 import { useNavigation } from "@react-navigation/native";
 import { TextInputField } from "../../components/TextInput";
