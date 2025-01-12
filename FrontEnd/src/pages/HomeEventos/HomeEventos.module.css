@@ -6,12 +6,13 @@
 
 
 .container {
+  background-color: #f4f4f9;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     padding: 20px;
-    background-color: #f4f4f9;
+ background-color: var(--background-color);
     min-height: 100vh;
   }
 
@@ -30,7 +31,7 @@
     letter-spacing: 1px;
   }
 
-  /* Contêiner dos eventos */
+
   .eventosContainer {
     display: flex;
     flex-wrap: wrap; 
@@ -48,15 +49,15 @@
     margin-top: 10px;
   }
   
-  /* Estilo do card de evento */
+ 
   .eventCard {
     background-color: #ffffff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 230px; /* Largura do card */
+    width: 230px;
     text-align: center;
-    transition: transform 0.2s ease-in-out; /* Efeito de hover */
+    transition: transform 0.2s ease-in-out; 
   }
   
   .eventCard:hover {
@@ -98,7 +99,8 @@
     color: #888;
     text-align: center;
   }
-  /* Botão de criar evento */
+ 
+
   .buttonCriar {
     background-color: #007BFF;
     color: white;

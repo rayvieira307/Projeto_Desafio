@@ -5,7 +5,7 @@ import Modal from "../../components/Modal/Modal";
 import { useNavigate } from "react-router-dom";
 import * as style from "./Login.module.css";
 import { FaCalendarDays } from "react-icons/fa6";
-import FundoLogin from "../../assets/FundoLogin.jpg";
+import FundoLogin from "../../assets/FundoLogin.png";
 
 export const Login = () => {
   const { signIn, RelembrarSenha, setRelembrarSenha } = useContext(AuthContext);

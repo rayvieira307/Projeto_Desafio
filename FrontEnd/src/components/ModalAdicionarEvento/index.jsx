@@ -47,7 +47,7 @@ const ModalAdicionarEvento = ({ isOpen, onClose }) => {
       
       <div className={styles.modalOverlay}>
         <div className={styles.modalContent}>
-          <h2 className={styles.TitlePrincipal} >Adicionar Novo Evento</h2>
+          <h2 className={styles.TitlePrincipal} >Vamos criar seu evento</h2>
           <form className={styles.FormularioC} onSubmit={handleAdicionarEvento}>
             <input
               className={styles.inputs}

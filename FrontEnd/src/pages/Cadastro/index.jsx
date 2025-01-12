@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as styles from "./Cadastro.module.css";
 import Modal from "../../components/Modal/Modal";
+import FundoCadastro  from "../../assets/cadastro.png";
 import axios from "axios";
 
 export const Cadastro = () => {
@@ -69,7 +70,13 @@ export const Cadastro = () => {
       <title>Pagina de Cadastro</title>
       <main className={styles.registrationContainer}>
         <header className={styles.registrationTitle}>
-          <h2>Cadastre-se</h2>
+          <h2 className={styles.titlePagina}>Realize o seu Cadastro </h2>
+          <img
+                      className={styles.ImageFundo}
+                      src={FundoCadastro}
+                      alt="Fundo Cadastro sobre Gestao de Eventos"
+                      tabIndex="0"
+                    /> 
         </header>
         <form className={styles.registrationForm} onSubmit={handleSubmit}>
           <section className={styles.inputGroup}>

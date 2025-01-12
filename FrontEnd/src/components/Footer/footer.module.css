@@ -7,7 +7,7 @@
 }  
 
 .footer {
-  background-color: #253b4c;
+  background-color: #111f29;
   color: #fff;
   padding: 5px;
   text-align: center;
@@ -17,6 +17,7 @@
 }
 
 .text {
+  color: #fff;
   font-size: 15px;
   margin: 0px;
 }

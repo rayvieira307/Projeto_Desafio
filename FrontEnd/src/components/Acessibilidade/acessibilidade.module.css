@@ -1,0 +1,60 @@
+@import url("../../Global.css");
+
+.secaoAcessibilidade header {
+  margin-top: -100px;
+  position: fixed;
+  top: 35%;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 9999;
+  align-items: right;
+}
+
+.botaoAcessibilidade {
+  color: var(--font-color);
+  border: none;
+  background: none;
+}
+
+.iconeAcessibilidade {
+
+  width: 40px;
+}
+
+.iconeContraste {
+  background-color: #1e5db6;
+  border-radius: 5px;
+  padding: 10px;
+  height: 30px;
+  width: 30px;
+}
+
+.containerBotoes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.containerBotoes > .btAumentar,
+.containerBotoes > .btDiminuir {
+  background-color: #1e5db6;
+  border: none;
+  border-radius: 5px;
+  padding: 8px;
+  height: 30px;
+  width: 30px;
+  color: black;
+  font-size: 13px !important;
+  color: var(--branco-primario);
+}
+
+.btAltoContraste {
+  margin-right: 10px;
+}
+
+.containerBotoes #diminuir {
+  height: 30px;
+  width: 30px;
+  font-size: 14px !important;
+}
