@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   },
 
   modalContent: {
-    width: '60%',
+    width: '90%',
     padding: 20,
     backgroundColor: 'white',
     borderRadius: 10,
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
 
   inputs: {
-    width: '90%',
+    width: '100%',
     padding: 10,
     marginVertical: 10,
     borderWidth: 1,
@@ -45,18 +45,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 
-  label: {
-    marginLeft: -215,
+  label: { 
+    textAlign: 'left',
     fontSize: 16,
-    fontWeight: '600',  
-    color: '#333',    
-  },
-
-  labell: {
-    marginLeft: -170,
-    fontSize: 16,
-    fontWeight: '600',  
-    color: '#333',    
+    fontWeight: '600',
+    color: '#333',
+    width: '100%',    
   },
 
   BotaoContainer: {
@@ -88,9 +82,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  buttonText:{
-    
-  }
+  modalMessage: {
+    fontSize: 20, 
+    color: '#000', 
+    textAlign: 'center', 
+    marginRight: 10,
+    marginTop: -32
+  },
+
+
 });
 
 export default styles;

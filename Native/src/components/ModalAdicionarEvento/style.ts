@@ -8,7 +8,7 @@ import { StyleSheet } from 'react-native';
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
-    width: '80%',
+    width: '85%',
     padding: 20,
     backgroundColor: 'white',
     borderRadius: 10,
@@ -40,7 +40,7 @@ import { StyleSheet } from 'react-native';
 
   addButton:{
     height: 50,
-    backgroundColor: '#4b0082',
+    backgroundColor: '#4eaeae',
     width: "40%",
     borderRadius: 5,
     justifyContent: 'center',
@@ -49,7 +49,7 @@ import { StyleSheet } from 'react-native';
 
   cancelButton:{
     height: 50,
-    backgroundColor: '#B22222',
+    backgroundColor: '#e0e0e0',
     width: "40%",
     borderRadius: 5,
     justifyContent: 'center',
@@ -65,9 +65,7 @@ import { StyleSheet } from 'react-native';
   },
 
   ButtonText:{
-    fontSize: 14,
-    color: '#000',
-    fontWeight: 'bold',
+    fontSize: 16,
     padding: 10,
   }
 

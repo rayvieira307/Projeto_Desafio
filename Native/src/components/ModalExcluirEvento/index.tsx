@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, TouchableOpacity, Modal as RNModal } from 'react-native';
 import { AuthContext } from '../../hooks/Auth';
-import styles from './style'; // Suponha que você tenha um arquivo de estilo separado
+import styles from './style'; 
 
-// Definindo a interface para o tipo Evento
+
 interface Evento {
   idEvento: string;
   nome_evento: string;
@@ -22,7 +22,6 @@ const ModalExcluirEvento: React.FC<ModalExcluirEventoProps> = ({ isOpen, onClose
 
   if (!isOpen) return null;
 
-  // Função para excluir o evento
   const handleExcluirEvento = async () => {
     if (!evento) {
       setMensagem("Evento não encontrado.");
@@ -35,7 +34,6 @@ const ModalExcluirEvento: React.FC<ModalExcluirEventoProps> = ({ isOpen, onClose
       setMensagem("Evento excluído com sucesso!");
       setIsModalMessageOpen(true);
 
-      // Fecha o modal após um tempo
       setTimeout(() => {
         setIsModalMessageOpen(false);
         onClose();
@@ -48,7 +46,7 @@ const ModalExcluirEvento: React.FC<ModalExcluirEventoProps> = ({ isOpen, onClose
 
   return (
     <>
-      {/* Modal Principal */}
+ 
       <RNModal
         visible={isOpen}
         animationType="slide"
@@ -80,7 +78,6 @@ const ModalExcluirEvento: React.FC<ModalExcluirEventoProps> = ({ isOpen, onClose
         </View>
       </RNModal>
 
-      {/* Modal de Mensagem (feedback de sucesso ou erro) */}
       <RNModal
         visible={isModalMessageOpen}
         animationType="fade"

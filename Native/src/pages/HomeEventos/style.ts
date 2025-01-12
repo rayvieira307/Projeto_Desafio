@@ -20,6 +20,10 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
       },
 
+      nomeAdmin:{
+           color: "#007BFF"
+      },
+
       eventosContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',

@@ -37,7 +37,7 @@ const ModalExcluirEvento = ({ isOpen, onClose, evento }) => {
       <div className={styles.modalOverlay} aria-live="assertive" role="dialog" aria-labelledby="modalExcluirTitle" aria-describedby="modalExcluirDesc">
         <div className={styles.modalContent}>
           <h2 id="modalExcluirTitle" className={styles.title}>Excluir Evento</h2>
-          <p id="modalExcluirDesc" className={styles.msgExcluir}>
+          <p id="modalExcluir" className={styles.msgExcluir}>
             Tem certeza de que deseja <b>excluir</b> o evento <b>{evento?.nome_evento}</b>?
           </p>
 

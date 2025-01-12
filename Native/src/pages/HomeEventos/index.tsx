@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import { AuthContext } from "../../hooks/Auth";
 import { FontAwesome } from "@expo/vector-icons";
@@ -6,6 +6,7 @@ import ModalEditarEvento from "../../components/ModalEditarEvento";
 import ModalExcluirEvento from "../../components/ModalExcluirEvento";
 import SideBar from "../../components/SideBar";
 import styles from "./style";
+import Header from "../../components/Header";
 
 interface Evento {
   idEvento: string;
@@ -16,7 +17,8 @@ interface Evento {
 }
 
 const FormatarData = (dateString: string) => {
-  const date = new Date(dateString);
+  const date = new Date(dateString + "T00:00:00");
+
   return new Intl.DateTimeFormat("pt-BR", {
     day: "2-digit",
     month: "long",
@@ -43,15 +45,14 @@ export const HomeEventos = () => {
   };
 
   const handleCardClick = (eventoId: string) => {
-    // Se o evento já estiver selecionado, desmarque
+
     if (selectedEvent === eventoId) {
       setSelectedEvent(null);
     } else {
-      setSelectedEvent(eventoId); // Se não, marque o evento como "aberto"
+      setSelectedEvent(eventoId); 7
     }
   };
 
-  // Fechar o card se o clique for fora do card (fechar quando o usuário clicar em outro lugar)
   const handleOutsideClick = () => {
     setSelectedEvent(null);
   };
@@ -60,12 +61,15 @@ export const HomeEventos = () => {
 
   return (
     <>
-      {/* Ao clicar fora, os ícones do evento selecionado são fechados */}
+    <Header/>
       <TouchableWithoutFeedback onPress={handleOutsideClick}>
         <ScrollView contentContainerStyle={styles.container}>
-          <Text style={styles.title}>
-            Bem-vindo, {nomeAdmin || "Usuário"}! Gerencie seus eventos aqui.
-          </Text>
+        <Text style={styles.title}>
+        Bem-vindo,{" "}
+        <Text style={styles.nomeAdmin}>
+          {nomeAdmin  || "Usuário "}
+        </Text>! Gerencie seus eventos aqui.
+      </Text>
 
           <View style={styles.eventosContainer}>
             {eventos.length > 0 ? (
@@ -73,8 +77,8 @@ export const HomeEventos = () => {
                 <TouchableOpacity
                   key={evento.idEvento}
                   style={styles.eventCard}
-                  onPress={() => handleCardClick(evento.idEvento)} // Ao clicar no card, alterna entre aberto/fechado
-                  activeOpacity={0.7} // Ajuste para opacidade ao pressionar
+                  onPress={() => handleCardClick(evento.idEvento)} 
+                  activeOpacity={0.7} 
                 >
                   <Image
                     source={{ uri: evento.imagem }}
@@ -82,7 +86,7 @@ export const HomeEventos = () => {
                   />
                   <Text style={styles.eventName}>{evento.nome_evento}</Text>
                   <Text style={styles.eventDate}>
-                    {FormatarData(evento.date)}
+                  {FormatarData(evento.date)}
                   </Text>
                   <Text style={styles.eventLocation}>{evento.localizacao}</Text>
 
@@ -103,7 +107,7 @@ export const HomeEventos = () => {
             )}
           </View>
 
-          {/* Modal de Edição */}
+          
           {modalEditOpen && eventoSelecionado && (
             <ModalEditarEvento
               isOpen={modalEditOpen}
@@ -112,7 +116,7 @@ export const HomeEventos = () => {
             />
           )}
 
-          {/* Modal de Exclusão */}
+      
           {modalDeleteOpen && eventoSelecionado && (
             <ModalExcluirEvento
               isOpen={modalDeleteOpen}

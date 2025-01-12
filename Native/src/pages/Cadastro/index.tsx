@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Text, TouchableOpacity, View, TextInput, Image } from "react-native";
-import { styles } from "./style"; // Importando os estilos que você criou
+import { styles } from "./style"; 
 import Image2 from "../../../assets/cadastro.png"
 import { useNavigation } from "@react-navigation/native";
 import Modal from "../../components/Modal";
@@ -17,7 +17,7 @@ export const Cadastro = () => {
   const [message, setMessage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation = useNavigation();
-
+  
   const [formData, setFormData] = useState({
     nome: "",
     email: "",

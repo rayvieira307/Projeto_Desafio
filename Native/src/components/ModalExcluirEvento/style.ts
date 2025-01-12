@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 30,
     borderRadius: 10,
-    width: 400,
+    width: 340,
     maxHeight: 500,
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
     width: 120,
     alignItems: 'center',
   },
+
   buttonText: {
-    color: '#fff',
     fontSize: 16,
   },
 });

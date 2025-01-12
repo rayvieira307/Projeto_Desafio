@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {Keyboard,Text,TouchableOpacity,TouchableWithoutFeedback,View,Image,} from "react-native";
 import { styles } from "./style";
 import { useNavigation } from "@react-navigation/native";
@@ -8,43 +8,52 @@ import ImageLogo from "../../../assets/FundoLogin.jpg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuth } from "../../hooks/useAuth";
 import Modal from "../../components/Modal";
+import { AuthContext } from "../../hooks/Auth";
 
 export const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [senha, setSenha] = useState<string>("");
-  const [lembrarSenha, setLembrarSenha] = useState<boolean>(false);
   const { signIn } = useAuth();
+  const {RelembrarSenha, setRelembrarSenha } = useContext(AuthContext);
   const navigation = useNavigation();
   const [message, setMessage] = useState("");  
   const [isModalVisible, setIsModalVisible] = useState(false);
 
 
   useEffect(() => {
+
     const loadCredentials = async () => {
-      const Email = await AsyncStorage.getItem("email");
-      const Senha = await AsyncStorage.getItem("senha");
-      const RelembrarSenha = await AsyncStorage.getItem("RelembrarSenha");
-
-      if (RelembrarSenha === "true") {
-        setEmail(Email || "");
-        setSenha(Senha || "");
-        setLembrarSenha(true);
-      }
-    };
-
+    if (RelembrarSenha) {
+        const salvarEmail = await AsyncStorage.getItem("email");
+        const salvarSenha = await AsyncStorage.getItem("senha");
+  
+        if (salvarEmail && salvarSenha) {
+          setEmail(salvarEmail);
+          setSenha(salvarSenha);
+        }
+      };
+    }
     loadCredentials();
-  }, []);
-
+  }, [RelembrarSenha]);
 
   const handleLogin = () => {
     if (!email || !senha) {
       setMessage("Erro ao fazer login. Tente novamente. Verifique se os campos estão preenchidos! Ou se as credenciais estão corretas!");
       setIsModalVisible(true);
+      return; 
     }
-
+  
     signIn({ email, senha });
+    if (RelembrarSenha) {
+      
+     AsyncStorage.setItem("email", email);
+     AsyncStorage.setItem("senha", senha);
+    }
   };
-
+  
+  const handleCheckboxChange = () => {
+    setRelembrarSenha(!RelembrarSenha);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -72,20 +81,15 @@ export const Login = () => {
             typeIcon="password"
           />
 
-          {/* Checkbox para lembrar senha */}
           <View>
             <TouchableOpacity
-              onPress={() => {
-                const newValue = !lembrarSenha;
-                setLembrarSenha(newValue);
-      
-              }}
+            onPress={handleCheckboxChange}
             >
               <Image
                 source={
-                  lembrarSenha
-                    ? require("../../../assets/desmarcado.jpg")
-                    : require("../../../assets/marcado.jpg")
+                  RelembrarSenha
+                    ? require("../../../assets/marcado.jpg")
+                    : require("../../../assets/desmarcado.jpg")
                 }
                 style={{ width: 20, height: 20, marginRight: 130, marginTop: 22 }}
               />
@@ -104,7 +108,7 @@ export const Login = () => {
             <Text style={styles.textAccount}>Cadastre-se</Text>
           </TouchableOpacity>
         </View>
-        <Modal isOpen={isModalVisible} onClose={() => setIsModalVisible(false)}>
+        <Modal isOpen={isModalVisible} onClose={() => {setIsModalVisible(false); setMessage("");}}>
           <Text style={styles.modalMessage}>{message}</Text>
         </Modal>
       </View>

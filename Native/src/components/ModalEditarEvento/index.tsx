@@ -11,14 +11,14 @@ import { AuthContext } from "../../hooks/Auth";
 import Modal from "../../components/Modal/index";
 import styles from "./style";
 
-// Definindo o tipo Evento
+
 interface Evento {
   idEvento: string;
   date: string;
   localizacao: string;
 }
 
-// Definindo as props do ModalEditarEvento
+
 interface ModalEditarEventoProps {
   isOpen: boolean;
   onClose: () => void;
@@ -34,19 +34,19 @@ const ModalEditarEvento: React.FC<ModalEditarEventoProps> = ({
   const [mensagem, setMensagem] = useState<string>("");
   const [isModalMessageOpen, setIsModalMessageOpen] = useState<boolean>(false);
 
-  // Inicializando o evento editado com o evento atual
+
   const [eventoEditado, setEventoEditado] = useState<Evento>(evento);
 
   useEffect(() => {
-    setEventoEditado(evento); // Atualiza o estado quando o evento é passado
+    setEventoEditado(evento); 
   }, [evento]);
 
-  // Se o modal não está aberto, não renderiza
+  
   if (!isOpen) return null;
 
-  // Função para editar o evento
+  
   const handleEditarEvento = async () => {
-    // Verifica se houve mudanças nos campos
+   
     if (
       eventoEditado.date !== evento.date ||
       eventoEditado.localizacao !== evento.localizacao
@@ -57,13 +57,11 @@ const ModalEditarEvento: React.FC<ModalEditarEventoProps> = ({
           localizacao: eventoEditado.localizacao,
         };
 
-        // Atualiza o evento
         await AtualizarEvento(evento.idEvento, eventoData);
 
         setMensagem("Evento atualizado com sucesso!");
         setIsModalMessageOpen(true);
 
-        // Fecha o modal após um tempo
         setTimeout(() => {
           setIsModalMessageOpen(false);
           onClose();
@@ -81,7 +79,7 @@ const ModalEditarEvento: React.FC<ModalEditarEventoProps> = ({
 
   return (
     <>
-      {/* Modal Principal */}
+    
       <RNModal
         visible={isOpen}
         animationType="slide"
@@ -104,7 +102,7 @@ const ModalEditarEvento: React.FC<ModalEditarEventoProps> = ({
                   placeholder="Data do Evento"
                   keyboardType="default"
                 />
-                <Text style={styles.labell} >Localização: </Text>
+                <Text style={styles.label} >Localização: </Text>
                 <TextInput
                   style={styles.inputs}
                   value={eventoEditado.localizacao}
@@ -120,13 +118,13 @@ const ModalEditarEvento: React.FC<ModalEditarEventoProps> = ({
                     onPress={handleEditarEvento}
                     style={styles.AdicionarButton}
                   >
-                    <Text style={styles.buttonText}>Salvar</Text>
+                    <Text>Salvar</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={onClose}
                     style={styles.CancelarButton}
                   >
-                    <Text style={styles.buttonText}>Cancelar</Text>
+                    <Text>Cancelar</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -135,12 +133,11 @@ const ModalEditarEvento: React.FC<ModalEditarEventoProps> = ({
         </TouchableWithoutFeedback>
       </RNModal>
 
-      {/* Modal de Mensagem (Feedback ao usuário) */}
       <Modal
         isOpen={isModalMessageOpen}
         onClose={() => setIsModalMessageOpen(false)}
       >
-        <Text>{mensagem}</Text>
+          <Text style={styles.modalMessage}>{mensagem}</Text>
       </Modal>
     </>
   );

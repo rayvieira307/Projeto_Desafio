@@ -75,9 +75,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [RelembrarSenha, setRelembrarSenha] = useState<boolean>(false);
 
-  // Função de login
+
   const signIn = async (data: { email: string; senha: string }) => {
-    setLoading(true);  // Define que está carregando ao tentar logar
+    setLoading(true); 
     try {
   
       const response = await axios.post("http://localhost:8080/login", {

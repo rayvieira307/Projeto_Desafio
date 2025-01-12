@@ -33,11 +33,16 @@ export const styles = StyleSheet.create({
     marginTop: 20,
   },
   text: {
-    alignItems: "center",
-    marginLeft: 5,
-    fontSize: 28,
-    fontWeight: 700,
-    color: "#000",
+    fontSize: 22,
+    fontWeight: '500',
+    color: '#000',
+    textAlign: 'center',
+    marginVertical: 10, 
+    letterSpacing: 2,   
+    textShadowColor: '#333', 
+    textShadowOffset: { width: 1, height: 1 }, 
+    textShadowRadius: 4,   
+    textTransform: 'uppercase',
   },
 
   input: {
