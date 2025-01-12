@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   sidebar: {
-    position: 'absolute', 
+    position: 'static', 
     bottom: 0,          
     left: 0,              
     width: '100%',        

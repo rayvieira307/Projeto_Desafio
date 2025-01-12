@@ -89,7 +89,7 @@ export const HomeEventos = () => {
                   {(selectedEvent === evento.idEvento || hoveredEvent === evento.idEvento) && (
                     <View style={styles.icons}>
                       <TouchableOpacity onPress={() => handleEdit(evento)}>
-                        <FontAwesome name="edit" style={styles.Icones} />
+                        <FontAwesome name="edit" style={styles.IconeEdit} />
                       </TouchableOpacity>
                       <TouchableOpacity onPress={() => handleDelete(evento)}>
                         <FontAwesome name="trash" style={styles.Icones} />

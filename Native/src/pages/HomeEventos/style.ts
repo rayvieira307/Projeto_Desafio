@@ -88,6 +88,13 @@ const styles = StyleSheet.create({
         color: '#010101',
         cursor: 'pointer',
       },
+
+      IconeEdit:{
+        marginTop: 5,
+        fontSize: 28,
+        color: '#010101',
+        cursor: 'pointer',
+      }
 });
 
 export default styles;
