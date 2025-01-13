@@ -93,7 +93,7 @@ export const HomeEventos = () => {
         </section>
       </main>
 
-      {/* Modal de Edição */}
+     
       {modalEditOpen && (
         <ModalEditarEvento
           isOpen={modalEditOpen}
@@ -102,7 +102,6 @@ export const HomeEventos = () => {
         />
       )}
 
-      {/* Modal de Exclusão */}
       {modalDeleteOpen && (
         <ModalExcluirEvento
           isOpen={modalDeleteOpen}
