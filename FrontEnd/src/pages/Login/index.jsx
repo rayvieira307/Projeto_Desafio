@@ -83,7 +83,7 @@ export const Login = () => {
         <div className={style.LadoDireito}>
           <form className={style.formularioLogin} onSubmit={handleSignIn}>
             <p className={style.formText}>
-              Gerenciador de Eventos
+              Produtores de Eventos
               <FaCalendarDays className={style.Calendario} />
             </p>
             <p className={style.titulo}>Faça seu Login</p>
