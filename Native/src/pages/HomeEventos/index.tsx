@@ -31,8 +31,8 @@ export const HomeEventos = () => {
   const [eventoSelecionado, setEventoSelecionado] = useState<Evento | null>(null);
   const [modalEditOpen, setModalEditOpen] = useState<boolean>(false);
   const [modalDeleteOpen, setModalDeleteOpen] = useState<boolean>(false);
-  const [hoveredEvent, setHoveredEvent] = useState<string | null>(null); // Estado para controlar o evento sobre o qual o dedo passou
-  const [selectedEvent, setSelectedEvent] = useState<string | null>(null); // Estado para controlar o evento "aberto"
+  const [hoveredEvent, setHoveredEvent] = useState<string | null>(null); 
+  const [selectedEvent, setSelectedEvent] = useState<string | null>(null); 
 
   const handleEdit = (evento: Evento) => {
     setEventoSelecionado(evento);

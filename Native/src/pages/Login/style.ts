@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
   },
 
   ImageLogo: {
-    marginTop: -60,
+    marginTop: -30,
     width: 300,
     height: 260,
     marginBottom: 20

@@ -10,15 +10,14 @@ export const styles = StyleSheet.create({
   },
 
   logo: {
-    width: 200,
-    height: 200,
+    width: 300,
+    height: 300,
     borderRadius: 20,
     marginBottom: 10,
     marginTop: 10,
   },
 
-  boxMid: {
-    marginTop: 30,
+  boxText: {
     height: 340,
     width: "100%",
     paddingHorizontal: 37,

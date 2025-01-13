@@ -4,14 +4,13 @@ import { StackRouters } from "./src/routes/StackRouters";
 import { AuthProvider } from "./src/hooks/Auth";
 
 
+
 export default function App() {
   return (
-
-  < NavigationContainer>
-      <AuthProvider>
-       <StackRouters /> 
-      </AuthProvider>
-    </NavigationContainer> 
-  
+     < NavigationContainer>
+          <AuthProvider>
+           <StackRouters />  
+          </AuthProvider> 
+        </NavigationContainer> 
   );
 }

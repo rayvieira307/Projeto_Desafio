@@ -2,9 +2,8 @@ import { createContext, useEffect, useState, ReactNode } from "react";
 import { useNavigation } from "@react-navigation/native"; 
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Text } from "react-native";
 
-// Definições de tipos
+
 interface User {
   idAdmin: string;
   [key: string]: any;
@@ -224,7 +223,7 @@ const fetchEventos = async (idAdmin: string) => {
     }
   };
 
-
+//deletar
   const deletarEvento = async (eventoId: string) => {
     if (!eventoId) {
       console.error('ID do evento não fornecido para exclusão.');
@@ -252,8 +251,8 @@ const fetchEventos = async (idAdmin: string) => {
   // Função de logout
   const signOut = async () => {
     setUser(null);
-    AsyncStorage.clear();  // Limpa tudo do AsyncStorage
-    navigation.navigate("Login");  // Navegar para a tela de Login
+    AsyncStorage.clear();  
+    navigation.navigate("Login");  
   };
 
 

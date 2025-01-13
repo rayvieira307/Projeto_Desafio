@@ -26,7 +26,7 @@ export const TextInputField = ({
         style={styles.input}
         placeholder={placeHolder}
         placeholderTextColor="#000"
-        secureTextEntry={typeIcon === 'password' && !viewPassword} // Condicional para senha
+        secureTextEntry={typeIcon === 'password' && !viewPassword} 
         value={valueInput}
       />
 

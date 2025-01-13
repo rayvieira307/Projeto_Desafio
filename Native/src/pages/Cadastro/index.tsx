@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Text, TouchableOpacity, View, TextInput, Image } from "react-native";
 import { styles } from "./style"; 
-import Image2 from "../../../assets/cadastro.png"
+import Image2 from "../../../assets/cadastro.jpg"
 import { useNavigation } from "@react-navigation/native";
 import Modal from "../../components/Modal";
 
@@ -75,7 +75,7 @@ export const Cadastro = () => {
         source={Image2} 
         alt="Icone de cadastrar"
       />
-      <View style={styles.boxMid}>
+      <View style={styles.boxText}>
        
         <TextInput
           style={styles.input}
